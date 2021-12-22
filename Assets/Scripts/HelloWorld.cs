@@ -5,55 +5,41 @@ using UnityEngine;
 
 public class HelloWorld : MonoBehaviour
 {
-    public float moveSpeed;
-    private int a1;
-    private float a2;
-    private string a3;
-    private bool a4;
-
-    private Vector2 v2;
-    private Vector3 v3;
+    public int min;
     
-    private void Awake()
-    {
-        Debug.Log($"Awake");
-    }
+    [SerializeField] private int max;
+    
+    private int guess;
 
     private void Start()
     {
-        Debug.Log($"Start");
+        Debug.Log($"Загадай число от {min} до {max}");
+        CalculateGuess();
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            Debug.Log($"GetKeyDown Frame {Time.frameCount}");
+            max = guess;
+            CalculateGuess();
         }
 
-        float axis = Input.GetAxis("Horizontal");
-        float move = axis * moveSpeed;
-
-        Vector3 pos = transform.position;
-        pos.x += move;
-        transform.position = pos;
-        
-        Debug.Log($"GetAxis axis {axis}");
-
-        if (Input.GetButton("Jump"))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            Debug.Log($"GetKey Frame {Time.frameCount}");
+            min = guess;
+            CalculateGuess();
         }
-        
-        if (Input.GetButtonUp("Jump"))
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log($"GetKeyUp Frame {Time.frameCount}");
+            Debug.Log($"Ура! Победа!");
         }
     }
 
-    private void Test()
+    private void CalculateGuess()
     {
-        Debug.Log($"Test");
+        guess = (min + max) / 2;
+        Debug.Log($"Твое число {guess}?");
     }
 }
